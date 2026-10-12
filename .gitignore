@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.venv/
+out/
+bookings.json
+config.json

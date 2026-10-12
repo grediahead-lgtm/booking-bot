@@ -1,0 +1,30 @@
+{
+  "work_days": [0, 1, 2, 3, 4],
+  "start": "10:00",
+  "end": "18:00",
+  "slot_minutes": 60,
+  "days_ahead": 7,
+  "min_notice_minutes": 60,
+  "reminder_hours": 24,
+  "owner_chat_id": null,
+  "texts": {
+    "greeting": "Hello! I book appointments. /book to book, /my to see your bookings, /unbook N to cancel one, /cancel to stop the dialog.",
+    "stopped": "Stopped. Send /book to start again.",
+    "too_many": "You already have {n} active bookings. Cancel one with /unbook N.",
+    "no_slots": "No free slots in the next days. Please try again later.",
+    "pick_day": "Choose a day (send the number):",
+    "pick_slot": "Choose a time (send the number):",
+    "bad_choice": "Please send one of the numbers from the list, or /cancel.",
+    "ask_name": "Your name?",
+    "bad_name": "Please send your name (at least 2 letters).",
+    "ask_phone": "Your phone number?",
+    "bad_phone": "Please send a phone number (9 to 15 digits).",
+    "slot_taken": "Sorry, this time was just taken. Send /book to choose another.",
+    "booked": "Booked #{id}: {start}. We will remind you the day before.",
+    "no_bookings": "You have no active bookings.",
+    "how_cancel": "To cancel: /unbook and the number, for example /unbook 3",
+    "cancelled": "Booking #{id} cancelled.",
+    "not_found": "No such active booking of yours.",
+    "reminder": "Reminder: your appointment is on {start}."
+  }
+}
