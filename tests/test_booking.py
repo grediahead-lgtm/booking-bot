@@ -59,7 +59,7 @@ class FlowTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             seen = []
             bot, store = new_bot(d, notify_owner=seen.append)
-            out = say(bot, 1, "/book", "1", "2", "Ira", "+380501112233")
+            out = say(bot, 1, "/book", "1", "2", "Ira", "+380000000001")
             self.assertIn("Booked #1", out[-1])
             self.assertEqual(len(store.active()), 1)
             self.assertEqual(seen[0]["name"], "Ira")
@@ -67,11 +67,11 @@ class FlowTests(unittest.TestCase):
     def test_same_slot_cannot_be_booked_twice(self):
         with tempfile.TemporaryDirectory() as d:
             bot, store = new_bot(d)
-            say(bot, 1, "/book", "1", "1", "Ira", "380501112233")
+            say(bot, 1, "/book", "1", "1", "Ira", "380000000001")
             # chat 2 saw the same list before chat 1 finished, so it picks the same slot
             say(bot, 2, "/book", "1", "1", "Oleg")
             store.add(9, "x", "380500000000", bot.sessions[2]["start"])  # slot gets taken by someone else
-            out = say(bot, 2, "380509998877")
+            out = say(bot, 2, "380000000003")
             self.assertEqual(out[-1], CFG["texts"]["slot_taken"])
             self.assertEqual(len(store.active()), 2)
 
@@ -89,7 +89,7 @@ class FlowTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             bot, store = new_bot(d)
             for k in range(3):
-                say(bot, 1, "/book", "1", "1", "Ira", "380501112233")
+                say(bot, 1, "/book", "1", "1", "Ira", "380000000001")
             self.assertIn("already have 3", say(bot, 1, "/book")[0])
             self.assertIn("#1", say(bot, 1, "/my")[0])
             self.assertEqual(say(bot, 2, "/unbook 1")[0], CFG["texts"]["not_found"])  # not someone else's booking
@@ -100,7 +100,7 @@ class FlowTests(unittest.TestCase):
     def test_cancelled_slot_is_free_again(self):
         with tempfile.TemporaryDirectory() as d:
             bot, store = new_bot(d)
-            say(bot, 1, "/book", "1", "1", "Ira", "380501112233")
+            say(bot, 1, "/book", "1", "1", "Ira", "380000000001")
             first = store.active()[0]["start"]
             say(bot, 1, "/unbook 1")
             self.assertNotIn(first, store.taken())
@@ -108,7 +108,7 @@ class FlowTests(unittest.TestCase):
     def test_persistence_and_atomic_file(self):
         with tempfile.TemporaryDirectory() as d:
             bot, store = new_bot(d)
-            say(bot, 1, "/book", "1", "1", "Ira", "380501112233")
+            say(bot, 1, "/book", "1", "1", "Ira", "380000000001")
             again = BookingStore(os.path.join(d, "b.json"))
             self.assertEqual(len(again.active()), 1)
             self.assertFalse(os.path.exists(os.path.join(d, "b.json.tmp")))
@@ -118,7 +118,7 @@ class FlowTests(unittest.TestCase):
             def boom(b):
                 raise RuntimeError("telegram down")
             bot, store = new_bot(d, notify_owner=boom)
-            out = say(bot, 1, "/book", "1", "1", "Ira", "380501112233")
+            out = say(bot, 1, "/book", "1", "1", "Ira", "380000000001")
             self.assertIn("Booked #1", out[-1])
             self.assertEqual(len(store.active()), 1)
 
