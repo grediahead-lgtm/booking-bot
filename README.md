@@ -6,7 +6,7 @@ A Telegram bot where customers book appointment slots (salon, masseur, tutor, re
 - `/book`: choose a day (numbered list of days that still have free slots), a time, then name and phone. `/my` lists your bookings, `/unbook N` cancels one, `/cancel` stops the dialog.
 - Working days, hours, slot length, how many days ahead and the minimum notice (default 60 minutes) are set in the config.
 - **No double booking:** the slot is checked again at the moment of saving, so if two customers choose the same time, the second gets "this time was just taken". A customer can cancel only their own bookings, and has at most 3 active bookings.
-- Cancelled slots become free again. The owner can get a message for every new booking (`owner_chat_id`). Reminders go out once, `reminder_hours` before the start.
+- Cancelled slots become free again. The owner can get a message for every new booking (`owner_chat_id`). Reminders go out once, `reminder_hours` before the start (if a reminder cannot be delivered, for example the customer blocked the bot, it is not retried).
 - Data is one JSON file (`bookings.json`, written atomically). Private chats only, rate limit per chat, token from `TELEGRAM_BOT_TOKEN` only, texts and phones are not logged.
 
 ## Quick start

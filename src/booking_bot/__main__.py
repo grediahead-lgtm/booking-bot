@@ -56,7 +56,10 @@ def main(argv=None):
             if time.time() - last_check > 300:
                 last_check = time.time()
                 for b in due_reminders(store.active(), dt.datetime.now(), cfg.get("reminder_hours", 24)):
-                    client.send(b["chat_id"], cfg["texts"]["reminder"].format(start=b["start"].replace("T", " ")))
+                    try:
+                        client.send(b["chat_id"], cfg["texts"]["reminder"].format(start=b["start"].replace("T", " ")))
+                    except Exception as e:  # e.g. the customer blocked the bot: do not retry forever or block the others
+                        print("reminder failed:", type(e).__name__, file=sys.stderr)
                     store.mark_reminded(b["id"])
         except KeyboardInterrupt:
             return 0

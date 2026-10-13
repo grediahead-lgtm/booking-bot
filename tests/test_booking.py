@@ -113,6 +113,15 @@ class FlowTests(unittest.TestCase):
             self.assertEqual(len(again.active()), 1)
             self.assertFalse(os.path.exists(os.path.join(d, "b.json.tmp")))
 
+    def test_failed_owner_notification_keeps_the_confirmation(self):
+        with tempfile.TemporaryDirectory() as d:
+            def boom(b):
+                raise RuntimeError("telegram down")
+            bot, store = new_bot(d, notify_owner=boom)
+            out = say(bot, 1, "/book", "1", "1", "Ira", "380501112233")
+            self.assertIn("Booked #1", out[-1])
+            self.assertEqual(len(store.active()), 1)
+
     def test_no_session_and_rate_limit(self):
         with tempfile.TemporaryDirectory() as d:
             bot, _ = new_bot(d, rate_limit=2)

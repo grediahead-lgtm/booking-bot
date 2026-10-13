@@ -93,7 +93,10 @@ class BookingBot:
             return [t["slot_taken"]]
         self.sessions.pop(chat, None)
         if self.notify_owner:
-            self.notify_owner(b)
+            try:
+                self.notify_owner(b)
+            except Exception:  # the booking is saved; an owner-message failure must not hide the confirmation
+                pass
         return [t["booked"].format(start=b["start"].replace("T", " "), id=b["id"])]
 
     def _mine(self, chat):
